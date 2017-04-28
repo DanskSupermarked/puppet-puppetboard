@@ -1,6 +1,7 @@
 require 'spec_helper'
 describe 'puppetboard' do
   context 'with default values for all parameters' do
+    let(:facts) { {:ipaddress_lo => '127.0.0.1'} }
     it { should contain_exec('generate_supervisor_conf') }
     it { should contain_file('/etc/init.d/supervisord') }
     it { should contain_package('gcc') }
