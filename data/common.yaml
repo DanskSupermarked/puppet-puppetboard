@@ -18,4 +18,5 @@ puppetboard::config::listen_port: 9090
 puppetboard::config::log_path: /var/log/supervisor/puppetboard.log
 puppetboard::config::puppetboard_conf_path: /etc/supervisord.d/puppetboard.conf
 puppetboard::config::supervisord_conf_file: /etc/supervisord.conf
+puppetboard::config::supervisord_conf_folder: /etc/supervisord.d
 puppetboard::config::supervisord_include_rule: /etc/supervisord.d/*.conf

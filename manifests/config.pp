@@ -31,10 +31,11 @@ class puppetboard::config (
   $log_path,
   $puppetboard_conf_path,
   $supervisord_conf_file,
+  $supervisord_conf_folder,
   $supervisord_include_rule,
 ) {
 
-  file { '/etc/supervisord.d':
+  file { $supervisord_conf_folder:
     ensure => 'directory',
   }
 
@@ -65,6 +66,7 @@ class puppetboard::config (
   ini_setting { 'supervisor_puppetboard_command':
     notify  => Service['puppetboard'],
     path    => $puppetboard_conf_path,
+    require => File[$supervisord_conf_folder],
     section => 'program:puppetboard',
     setting => 'command',
     value   => $gunicorn_puppetboard_cmd,
@@ -73,6 +75,7 @@ class puppetboard::config (
   ini_setting { 'supervisor_puppetboard_directory':
     notify  => Service['puppetboard'],
     path    => $puppetboard_conf_path,
+    require => File[$supervisord_conf_folder],
     section => 'program:puppetboard',
     setting => 'directory',
     value   => $puppetboard::install_path,
@@ -81,6 +84,7 @@ class puppetboard::config (
   ini_setting { 'supervisor_puppetboard_environment':
     notify  => Service['puppetboard'],
     path    => $puppetboard_conf_path,
+    require => File[$supervisord_conf_folder],
     section => 'program:puppetboard',
     setting => 'environment',
     value   => "PUPPETBOARD_SETTINGS=\"${puppetboard::install_path}/puppetboard/settings.py\"",
@@ -89,6 +93,7 @@ class puppetboard::config (
   ini_setting { 'supervisor_puppetboard_log':
     notify  => Service['puppetboard'],
     path    => $puppetboard_conf_path,
+    require => File[$supervisord_conf_folder],
     section => 'program:puppetboard',
     setting => 'stdout_logfile',
     value   => $log_path,
@@ -97,6 +102,7 @@ class puppetboard::config (
   ini_setting { 'supervisor_puppetboard_log_err':
     notify  => Service['puppetboard'],
     path    => $puppetboard_conf_path,
+    require => File[$supervisord_conf_folder],
     section => 'program:puppetboard',
     setting => 'stderr_logfile',
     value   => $err_log_path,

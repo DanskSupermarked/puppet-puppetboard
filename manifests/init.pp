@@ -81,10 +81,6 @@ class puppetboard (
       source => 'puppet:///modules/puppetboard/supervisord',
     }
 
-    file { '/etc/supervisord.d':
-      ensure => 'directory',
-    }
-
     file { '/var/log/supervisor':
       ensure => 'directory',
     }
