@@ -1,0 +1,2 @@
+puppetboard::install_path: /usr/lib/python2.6/site-packages
+puppetboard::pip_package_name: python-pip

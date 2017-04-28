@@ -1,0 +1,16 @@
+{
+  "name": "dansksupermarked-puppetboard",
+  "version": "1.0.0",
+  "author": "dansksupermarked",
+  "summary": "Install and Manage Puppetboard with Gunicorn and Supervisor",
+  "license": "GPL-3.0",
+  "source": "https://github.com/DanskSupermarked/puppet-puppetboard",
+  "project_page": "https://github.com/DanskSupermarked/puppet-puppetboard",
+  "issues_url": "https://github.com/DanskSupermarked/puppet-puppetboard/issues",
+  "dependencies": [
+    {
+      "name": "puppetlabs-inifile",
+      "version_requirement": ">= 1.0.0"
+    }
+  ]
+}
