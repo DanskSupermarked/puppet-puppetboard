@@ -8,7 +8,6 @@ puppetboard::pip_package_name: python2-pip
 puppetboard::service_name: puppetboard
 puppetboard::supervisor_dist_pkg_name: supervisor
 puppetboard::supervisor_from_pip: true
-puppetboard::supervisord_conf_file: /etc/supervisord.conf
 puppetboard::use_gevent: true
 puppetboard::version: 0.2.2
 puppetboard::config::err_log_path: /var/log/supervisor/puppetboard.error.log
@@ -18,4 +17,5 @@ puppetboard::config::gunicorn_worker_connections: 100
 puppetboard::config::listen_port: 9090
 puppetboard::config::log_path: /var/log/supervisor/puppetboard.log
 puppetboard::config::puppetboard_conf_path: /etc/supervisord.d/puppetboard.conf
+puppetboard::config::supervisord_conf_file: /etc/supervisord.conf
 puppetboard::config::supervisord_include_rule: /etc/supervisord.d/*.conf

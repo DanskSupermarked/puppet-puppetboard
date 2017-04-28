@@ -30,6 +30,7 @@ class puppetboard::config (
   $listen_port,
   $log_path,
   $puppetboard_conf_path,
+  $supervisord_conf_file,
   $supervisord_include_rule,
 ) {
 

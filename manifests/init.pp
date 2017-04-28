@@ -33,7 +33,6 @@ class puppetboard (
   $service_name,
   $supervisor_dist_pkg_name,
   $supervisor_from_pip,
-  $supervisord_conf_file,
   $use_gevent,
   $version,
 ) {
@@ -121,7 +120,7 @@ class puppetboard (
 
   if $manage_supervisord {
     service { 'supervisord':
-      ensure => 'running',
+      ensure  => 'running',
       require => Package['supervisor'],
     }
   }
