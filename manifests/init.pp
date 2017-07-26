@@ -9,7 +9,6 @@
 # Copyright 2017 Dansk Supermarked.
 #
 class puppetboard (
-  String $config_err_log_path,
   Boolean $config_generate_supervisor_conf,
   Integer[1, default] $config_gunicorn_threads,
   Integer[1, default] $config_gunicorn_worker_connections,
