@@ -87,7 +87,7 @@ class puppetboard::config inherits puppetboard{
     value   => "${puppetboard::config_log_folder}/puppetboard.error.log",
   }
 
-  if $openshift::manage_user && $puppetboard::config_listen_port > 1024 {
+  if $puppetboard::manage_user && $puppetboard::config_listen_port > 1024 {
     $supervisor_puppetboard_user_ensure = 'present'
 
     file { $puppetboard::config_log_folder :
