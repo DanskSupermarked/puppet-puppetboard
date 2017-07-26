@@ -92,8 +92,8 @@ class puppetboard::config inherits puppetboard{
 
     file { $puppetboard::config_log_folder :
       ensure => 'directory',
-      group => $puppetboard::run_as_user,
-      owner => $puppetboard::run_as_user,
+      group  => $puppetboard::run_as_user,
+      owner  => $puppetboard::run_as_user,
     }
   } else {
     $supervisor_puppetboard_user_ensure = 'absent'
