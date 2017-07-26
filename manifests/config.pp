@@ -91,9 +91,11 @@ class puppetboard::config inherits puppetboard{
     $supervisor_puppetboard_user_ensure = 'present'
 
     file { $puppetboard::config_log_folder :
-      ensure => 'directory',
-      group  => $puppetboard::run_as_user,
-      owner  => $puppetboard::run_as_user,
+      ensure       => 'directory',
+      group        => $puppetboard::run_as_user,
+      owner        => $puppetboard::run_as_user,
+      recurse      => true,
+      recurselimit => 1,
     }
   } else {
     $supervisor_puppetboard_user_ensure = 'absent'
