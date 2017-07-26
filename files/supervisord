@@ -16,7 +16,7 @@
 
 RETVAL=0
 prog="supervisord"
-pidfile="/tmp/supervisord.pid"
+pidfile="/var/run/supervisord.pid"
 lockfile="/var/lock/subsys/supervisord"
 
 start()
