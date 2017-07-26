@@ -38,9 +38,9 @@ class puppetboard::config inherits puppetboard{
   }
 
   if $puppetboard::use_gevent {
-    $gunicorn_puppetboard_cmd = "gunicorn -b ${::ipaddress_lo}:${listen_port} --worker-class gevent --threads ${puppetboard::config_gunicorn_threads} --worker-connections ${puppetboard::config_gunicorn_worker_connections} puppetboard.app:app"
+    $gunicorn_puppetboard_cmd = "gunicorn -b ${::ipaddress_lo}:${puppetboard::config_listen_port} --worker-class gevent --threads ${puppetboard::config_gunicorn_threads} --worker-connections ${puppetboard::config_gunicorn_worker_connections} puppetboard.app:app"
   } else {
-    $gunicorn_puppetboard_cmd = "gunicorn -b ${::ipaddress_lo}:${listen_port} puppetboard.app:app"
+    $gunicorn_puppetboard_cmd = "gunicorn -b ${::ipaddress_lo}:${puppetboard::config_listen_port} puppetboard.app:app"
   }
 
   ini_setting { 'supervisor_puppetboard_command':
