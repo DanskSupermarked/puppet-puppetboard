@@ -1,48 +1,28 @@
-# Class: puppetboard::config
+# puppetboard::config
 # ===========================
-#
-# Parameters
-# ----------
-#
-#
-# Variables
-# ----------
-#
-#
-# Examples
-# --------
 #
 # Authors
 # -------
-#
 # Benjamin Merot <benjamin.merot@dsg.dk>
 #
 # Copyright
 # ---------
-#
 # Copyright 2017 Dansk Supermarked.
 #
-class puppetboard::config (
-  $err_log_path,
-  $generate_supervisor_conf,
-  $gunicorn_threads,
-  $gunicorn_worker_connections,
-  $listen_port,
-  $log_path,
-  $puppetboard_conf_path,
-  $supervisord_conf_file,
-  $supervisord_conf_folder,
-  $supervisord_include_rule,
-) {
+class puppetboard::config inherits puppetboard{
 
-  file { $supervisord_conf_folder:
+  file { $puppetboard::config_supervisord_conf_folder :
     ensure => 'directory',
   }
 
-  if $generate_supervisor_conf {
+  file { $puppetboard::config_log_folder :
+    ensure => 'directory',
+  }
+
+  if $puppetboard::config_generate_supervisor_conf {
     exec { 'generate_supervisor_conf':
-      command => "echo_supervisord_conf > ${supervisord_conf_file}",
-      creates => $supervisord_conf_file,
+      command => "echo_supervisord_conf > ${puppetboard::config_supervisord_conf_file}",
+      creates => $puppetboard::config_supervisord_conf_file,
       notify  => Ini_setting['supervisord_include'],
       path    => '/usr/bin',
       require => Package['supervisor'],
@@ -54,19 +34,19 @@ class puppetboard::config (
     path    => '/etc/supervisord.conf',
     section => 'include',
     setting => 'files',
-    value   => $supervisord_include_rule,
+    value   => $puppetboard::config_supervisord_include_rule,
   }
 
   if $puppetboard::use_gevent {
-    $gunicorn_puppetboard_cmd = "gunicorn -b ${::ipaddress_lo}:${listen_port} --worker-class gevent --threads ${gunicorn_threads} --worker-connections ${gunicorn_worker_connections} puppetboard.app:app"
+    $gunicorn_puppetboard_cmd = "gunicorn -b ${::ipaddress_lo}:${listen_port} --worker-class gevent --threads ${puppetboard::config_gunicorn_threads} --worker-connections ${puppetboard::config_gunicorn_worker_connections} puppetboard.app:app"
   } else {
     $gunicorn_puppetboard_cmd = "gunicorn -b ${::ipaddress_lo}:${listen_port} puppetboard.app:app"
   }
 
   ini_setting { 'supervisor_puppetboard_command':
     notify  => Service['puppetboard'],
-    path    => $puppetboard_conf_path,
-    require => File[$supervisord_conf_folder],
+    path    => $puppetboard::config_puppetboard_conf_path,
+    require => File[$puppetboard::config_supervisord_conf_folder],
     section => 'program:puppetboard',
     setting => 'command',
     value   => $gunicorn_puppetboard_cmd,
@@ -74,8 +54,8 @@ class puppetboard::config (
 
   ini_setting { 'supervisor_puppetboard_directory':
     notify  => Service['puppetboard'],
-    path    => $puppetboard_conf_path,
-    require => File[$supervisord_conf_folder],
+    path    => $puppetboard::config_puppetboard_conf_path,
+    require => File[$puppetboard::config_supervisord_conf_folder],
     section => 'program:puppetboard',
     setting => 'directory',
     value   => $puppetboard::install_path,
@@ -83,8 +63,8 @@ class puppetboard::config (
 
   ini_setting { 'supervisor_puppetboard_environment':
     notify  => Service['puppetboard'],
-    path    => $puppetboard_conf_path,
-    require => File[$supervisord_conf_folder],
+    path    => $puppetboard::config_puppetboard_conf_path,
+    require => File[$puppetboard::config_supervisord_conf_folder],
     section => 'program:puppetboard',
     setting => 'environment',
     value   => "PUPPETBOARD_SETTINGS=\"${puppetboard::install_path}/puppetboard/settings.py\"",
@@ -92,20 +72,23 @@ class puppetboard::config (
 
   ini_setting { 'supervisor_puppetboard_log':
     notify  => Service['puppetboard'],
-    path    => $puppetboard_conf_path,
-    require => File[$supervisord_conf_folder],
+    path    => $puppetboard::config_puppetboard_conf_path,
+    require => [
+      File[$puppetboard::config_log_folder],
+      File[$puppetboard::config_supervisord_conf_folder]
+    ],
     section => 'program:puppetboard',
     setting => 'stdout_logfile',
-    value   => $log_path,
+    value   => "${puppetboard::config_log_folder}/puppetboard.log",
   }
 
   ini_setting { 'supervisor_puppetboard_log_err':
     notify  => Service['puppetboard'],
-    path    => $puppetboard_conf_path,
-    require => File[$supervisord_conf_folder],
+    path    => $puppetboard::config_puppetboard_conf_path,
+    require => File[$puppetboard::config_supervisord_conf_folder],
     section => 'program:puppetboard',
     setting => 'stderr_logfile',
-    value   => $err_log_path,
+    value   => "${puppetboard::config_log_folder}/puppetboard.error.log",
   }
 
 }

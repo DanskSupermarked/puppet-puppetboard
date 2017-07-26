@@ -1,47 +1,49 @@
-# Class: puppetboard
+# puppetboard
 # ===========================
-#
-# Parameters
-# ----------
-#
-#
-# Variables
-# ----------
-#
-#
-# Examples
-# --------
-#
 # Authors
 # -------
-#
 # Benjamin Merot <benjamin.merot@dsg.dk>
 #
 # Copyright
 # ---------
-#
 # Copyright 2017 Dansk Supermarked.
 #
 class puppetboard (
-  $install_path,
-  $install_site_packages,
-  $manage_gcc,
-  $manage_pip,
-  $manage_supervisord,
-  $pip_package_ensure,
-  $pip_package_name,
-  $service_name,
-  $supervisor_dist_pkg_name,
-  $supervisor_from_pip,
-  $use_gevent,
-  $version,
+  String $config_err_log_path,
+  Boolean $config_generate_supervisor_conf,
+  Integer [1, default] $config_gunicorn_threads,
+  Integer [1, default] $config_gunicorn_worker_connections,
+  Integer[1, 65535] $config_listen_port,
+  String $config_log_folder,
+  String $config_puppetboard_conf_path,
+  String $config_supervisord_conf_file,
+  String $config_supervisord_conf_folder,
+  String $config_supervisord_include_rule,
+  String $gevent_pkg_ensure,
+  String $gunicorn_pkg_ensure,
+  String $install_path,
+  Boolean $install_site_packages,
+  Boolean $manage_gcc,
+  Boolean $manage_pip,
+  Boolean $manage_supervisord,
+  String $pip_package_ensure,
+  String $pip_package_name,
+  String $service_name,
+  Boolean $supervisor_from_pip,
+  String $supervisor_pkg_ensure,
+  String $supervisor_pkg_name,
+  Boolean $use_gevent,
+  String $version,
 ) {
 
   if $manage_pip {
     package { $pip_package_name:
-      ensure   => pip_package_ensure,
-      notify   => Package['supervisor'],
-      provider => 'pip',
+      ensure => pip_package_ensure,
+      notify => [
+        Package['gunicorn'],
+        Package['puppetboard'],
+        Package[$supervisor_pkg_name]
+      ],
     }
   }
 
@@ -58,7 +60,7 @@ class puppetboard (
   }
 
   package { 'gunicorn':
-    ensure          => 'present',
+    ensure          => $gunicorn_pkg_ensure,
     install_options => $pip_install_options,
     provider        => 'pip',
   }
@@ -71,22 +73,19 @@ class puppetboard (
   }
 
   if $supervisor_from_pip {
-    package { 'supervisor':
-      ensure   => 'present',
+    package { $supervisor_pkg_name :
+      ensure   => $supervisor_pkg_ensure,
       provider => 'pip',
     }
 
     file { '/etc/init.d/supervisord':
       ensure => 'file',
+      notify => Service['supervisord'],
       source => 'puppet:///modules/puppetboard/supervisord',
     }
-
-    file { '/var/log/supervisor':
-      ensure => 'directory',
-    }
   } else {
-    package { $supervisor_dist_pkg_name:
-      ensure   => 'present',
+    package { $supervisor_pkg_name:
+      ensure => $supervisor_pkg_ensure,
     }
   }
 
@@ -99,7 +98,7 @@ class puppetboard (
     }
 
     package { 'gevent':
-      ensure          => 'present',
+      ensure          => $gevent_pkg_ensure,
       install_options => $pip_install_options,
       provider        => 'pip',
     }
@@ -121,7 +120,7 @@ class puppetboard (
     }
   }
 
-  class { 'puppetboard::config': }
+  contain puppetboard::config
 
   # log rotation rule for gunicorn/supervisor?
 
