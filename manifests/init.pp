@@ -37,7 +37,7 @@ class puppetboard (
 
   if $manage_pip {
     package { $pip_package_name:
-      ensure => pip_package_ensure,
+      ensure => $pip_package_ensure,
       notify => [
         Package['gunicorn'],
         Package['puppetboard'],
