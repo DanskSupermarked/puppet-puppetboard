@@ -107,6 +107,7 @@ class puppetboard (
 
   if $manage_user {
     group { $run_as_user :
+      ensure => present,
       system => true,
     }
 
