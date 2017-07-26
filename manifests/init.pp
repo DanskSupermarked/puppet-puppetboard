@@ -123,7 +123,7 @@ class puppetboard (
     ensure    => 'running',
     restart   => 'supervisorctl reread puppetboard && supervisorctl update puppetboard && supervisorctl restart puppetboard',
     start     => 'supervisorctl start puppetboard',
-    status    => 'supervisorctl status puppetboard',
+    status    => 'supervisorctl status puppetboard | grep RUNNING',
     stop      => 'supervisorctl stop puppetboard',
     subscribe => Service['supervisord'],
   }
