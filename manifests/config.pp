@@ -15,10 +15,6 @@ class puppetboard::config inherits puppetboard{
     ensure => 'directory',
   }
 
-  file { $puppetboard::config_log_folder :
-    ensure => 'directory',
-  }
-
   if $puppetboard::config_generate_supervisor_conf {
     exec { 'generate_supervisor_conf':
       command => "echo_supervisord_conf > ${puppetboard::config_supervisord_conf_file}",
@@ -89,6 +85,32 @@ class puppetboard::config inherits puppetboard{
     section => 'program:puppetboard',
     setting => 'stderr_logfile',
     value   => "${puppetboard::config_log_folder}/puppetboard.error.log",
+  }
+
+  if $openshift::manage_user && $puppetboard::config_listen_port > 1024 {
+    $supervisor_puppetboard_user_ensure = 'present'
+
+    file { $puppetboard::config_log_folder :
+      ensure => 'directory',
+      group => $puppetboard::run_as_user,
+      owner => $puppetboard::run_as_user,
+    }
+  } else {
+    $supervisor_puppetboard_user_ensure = 'absent'
+
+    file { $puppetboard::config_log_folder :
+      ensure => 'directory',
+    }
+  }
+
+  ini_setting { 'supervisor_puppetboard_user':
+    ensure  => $supervisor_puppetboard_user_ensure,
+    notify  => Service['puppetboard'],
+    path    => $puppetboard::config_puppetboard_conf_path,
+    require => File[$puppetboard::config_supervisord_conf_folder],
+    section => 'program:puppetboard',
+    setting => 'user',
+    value   => $puppetboard::run_as_user,
   }
 
 }

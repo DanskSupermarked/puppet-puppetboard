@@ -2,7 +2,7 @@ puppetboard::config_generate_supervisor_conf: true
 puppetboard::config_gunicorn_threads: 2
 puppetboard::config_gunicorn_worker_connections: 100
 puppetboard::config_listen_port: 9090
-puppetboard::config_log_folder: /var/log/supervisor
+puppetboard::config_log_folder: /var/log/puppetboard
 puppetboard::config_puppetboard_conf_path: /etc/supervisord.d/puppetboard.conf
 puppetboard::config_supervisord_conf_file: /etc/supervisord.conf
 puppetboard::config_supervisord_conf_folder: /etc/supervisord.d
@@ -14,8 +14,10 @@ puppetboard::install_site_packages: true
 puppetboard::manage_gcc: true
 puppetboard::manage_pip: true
 puppetboard::manage_supervisord: true
+puppetboard::manage_user: true
 puppetboard::pip_package_ensure: present
 puppetboard::pip_package_name: python2-pip
+puppetboard::run_as_user: puppetboard
 puppetboard::service_name: puppetboard
 puppetboard::supervisor_pkg_name: supervisor
 puppetboard::supervisor_from_pip: true

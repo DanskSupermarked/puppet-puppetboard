@@ -25,8 +25,10 @@ class puppetboard (
   Boolean $manage_gcc,
   Boolean $manage_pip,
   Boolean $manage_supervisord,
+  Boolean $manage_user,
   String $pip_package_ensure,
   String $pip_package_name,
+  String $run_as_user,
   String $service_name,
   Boolean $supervisor_from_pip,
   String $supervisor_pkg_ensure,
@@ -100,6 +102,19 @@ class puppetboard (
       ensure          => $gevent_pkg_ensure,
       install_options => $pip_install_options,
       provider        => 'pip',
+    }
+  }
+
+  if $manage_user {
+    group { $run_as_user :
+      system => true,
+    }
+
+    user { $run_as_user :
+      gid     => $run_as_user,
+      require => Group[$run_as_user],
+      shell   => '/bin/false',
+      system  => true,
     }
   }
 

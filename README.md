@@ -57,4 +57,4 @@ Here are some example Nginx location resources in Hiera for the Nginx Puppet mod
   }
 ```
 ## TODO
-Add Puppetboard settings template.
+- Add Puppetboard settings template.

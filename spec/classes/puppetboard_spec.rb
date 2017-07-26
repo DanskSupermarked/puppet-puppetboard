@@ -10,6 +10,8 @@ describe 'puppetboard' do
     it { should contain_package('puppetboard').with_provider('pip') }
     it { should contain_package('python2-pip') }
     it { should contain_package('supervisor').with_provider('pip') }
+    it { should contain_group('puppetboard') }
+    it { should contain_user('puppetboard') }
     it { should contain_service('puppetboard') }
     it { should contain_service('supervisord') }
 
@@ -17,7 +19,7 @@ describe 'puppetboard' do
 
     describe 'puppetboard::config' do
       it { should contain_exec('generate_supervisor_conf') }
-      it { should contain_file('/var/log/supervisor') }
+      it { should contain_file('/var/log/puppetboard').with_owner('puppetboard') }
     end
 
   end
