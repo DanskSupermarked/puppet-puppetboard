@@ -2,7 +2,7 @@ puppetboard::config_generate_supervisor_conf: true
 puppetboard::config_gunicorn_threads: 2
 puppetboard::config_gunicorn_worker_connections: 100
 puppetboard::config_listen_port: 9090
-puppetboard::config_log_folder: /var/log/supervisor/
+puppetboard::config_log_folder: /var/log/supervisor
 puppetboard::config_puppetboard_conf_path: /etc/supervisord.d/puppetboard.conf
 puppetboard::config_supervisord_conf_file: /etc/supervisord.conf
 puppetboard::config_supervisord_conf_folder: /etc/supervisord.d
