@@ -6,7 +6,7 @@ describe 'puppetboard' do
       let(:facts) do
         facts
       end
-      
+
       it { is_expected.to compile.with_all_deps }
 
       it { should contain_file('/etc/init.d/supervisord') }
