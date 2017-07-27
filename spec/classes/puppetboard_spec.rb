@@ -24,10 +24,12 @@ describe 'puppetboard' do
 
       case facts[:os]['release']['major']
       when '6'
+        it { should contain_file('/usr/lib/python2.6/site-packages/puppetboard/settings.py') }
         it { should contain_package('python-pip') }
         it { should contain_package('python-devel') }
         it { should contain_package('gevent').with_ensure('1.1.2') }
       else
+        it { should contain_file('/usr/lib/python2.7/site-packages/puppetboard/settings.py') }
         it { should contain_package('python2-pip') }
         it { should_not contain_package('python-devel') }
         it { should contain_package('gevent').with_ensure('present') }

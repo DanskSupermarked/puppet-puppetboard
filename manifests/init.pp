@@ -18,22 +18,33 @@ class puppetboard (
   String $config_supervisord_conf_file,
   String $config_supervisord_conf_folder,
   String $config_supervisord_include_rule,
+  Integer[1, 365] $daily_reports_chart_days,
+  String $default_environment,
   String $gevent_pkg_ensure,
   Boolean $gevent_use_wheel_bin,
   String $gunicorn_pkg_ensure,
   String $install_path,
   Boolean $install_site_packages,
+  Integer[1, 100] $little_table_count,
+  Enum['critical', 'debug', 'error', 'info', 'warning'] $log_level,
   Boolean $manage_pip,
   Boolean $manage_supervisord,
   Boolean $manage_user,
+  Integer[1, 200] $normal_table_count,
   String $pip_package_ensure,
   String $pip_package_name,
+  String $puppetdb_host,
+  Integer[1, 65535] $puppetdb_port,
+  Integer[1, 120] $puppetdb_timeout,
   String $python_devel_pkg,
+  Integer[1, 240] $refresh_rate,
   String $run_as_user,
   String $service_name,
+  String $settings_path,
   Boolean $supervisor_from_pip,
   String $supervisor_pkg_ensure,
   String $supervisor_pkg_name,
+  Integer[1, 96] $unresponsive_hours,
   Boolean $use_gevent,
   String $version,
 ) {
@@ -120,8 +131,15 @@ class puppetboard (
     }
   }
 
+  file { $settings_path :
+    ensure  => 'file',
+    content => template('puppetboard/settings.py.erb'),
+    notify  => Service['puppetboard'],
+  }
+
   service { 'puppetboard':
     ensure    => 'running',
+    require   => Package['puppetboard'],
     restart   => 'supervisorctl reread puppetboard && supervisorctl update puppetboard && supervisorctl restart puppetboard',
     start     => 'supervisorctl start puppetboard',
     status    => 'supervisorctl status puppetboard | grep RUNNING',

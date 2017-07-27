@@ -63,7 +63,7 @@ class puppetboard::config inherits puppetboard{
     require => File[$puppetboard::config_supervisord_conf_folder],
     section => 'program:puppetboard',
     setting => 'environment',
-    value   => "PUPPETBOARD_SETTINGS=\"${puppetboard::install_path}/puppetboard/settings.py\"",
+    value   => "PUPPETBOARD_SETTINGS=\"${puppetboard::settings_path}\"",
   }
 
   ini_setting { 'supervisor_puppetboard_log':
