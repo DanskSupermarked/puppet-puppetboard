@@ -1,10 +1,10 @@
 source ENV['GEM_SOURCE'] || 'https://rubygems.org'
 
 gem 'metadata-json-lint'
-gem 'puppet', *location_for(ENV['PUPPET_GEM_VERSION']) if ENV['PUPPET_GEM_VERSION']
+gem 'puppet', ENV['PUPPET_GEM_VERSION']
 gem 'puppetlabs_spec_helper', '>= 1.0.0'
 gem 'puppet-lint', '>= 1.0.0'
-gem 'facter', *location_for(ENV['FACTER_GEM_VERSION']) if ENV['FACTER_GEM_VERSION']
+gem 'facter', ENV['FACTER_GEM_VERSION']
 gem 'hiera'
 gem 'rspec-puppet'
 gem 'rspec-puppet-facts', :require => false
