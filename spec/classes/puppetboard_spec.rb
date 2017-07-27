@@ -14,7 +14,6 @@ describe 'puppetboard' do
       it { should contain_package('gevent').with_provider('pip') }
       it { should contain_package('gunicorn').with_provider('pip') }
       it { should contain_package('puppetboard').with_provider('pip') }
-      it { should contain_package('python2-pip') }
       it { should contain_package('supervisor').with_provider('pip') }
       it { should contain_group('puppetboard') }
       it { should contain_user('puppetboard') }
@@ -25,9 +24,11 @@ describe 'puppetboard' do
 
       case facts[:os]['release']['major']
       when '6'
+        it { should contain_package('python-pip') }
         it { should contain_package('python-devel') }
         it { should contain_package('gevent').with_ensure('1.1.2') }
       else
+        it { should contain_package('python2-pip') }
         it { should_not contain_package('python-devel') }
         it { should contain_package('gevent').with_ensure('present') }
       end
