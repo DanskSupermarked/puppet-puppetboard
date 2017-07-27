@@ -7,7 +7,7 @@ gem 'puppet-lint', '>= 1.0.0'
 gem 'facter', ENV['FACTER_GEM_VERSION']
 gem 'hiera'
 gem 'rspec-puppet'
-gem 'rspec-puppet-facts', '1.7', :require => false
+gem 'rspec-puppet-facts', :require => false
 
 # rspec must be v2 for ruby 1.8.7
 if RUBY_VERSION >= '1.8.7' && RUBY_VERSION < '1.9'
