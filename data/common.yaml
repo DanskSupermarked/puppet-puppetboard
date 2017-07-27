@@ -8,15 +8,16 @@ puppetboard::config_supervisord_conf_file: /etc/supervisord.conf
 puppetboard::config_supervisord_conf_folder: /etc/supervisord.d
 puppetboard::config_supervisord_include_rule: /etc/supervisord.d/*.conf
 puppetboard::gevent_pkg_ensure: present
+puppetboard::gevent_use_wheel_bin: true
 puppetboard::gunicorn_pkg_ensure: present
 puppetboard::install_path: /usr/lib/python2.7/site-packages
 puppetboard::install_site_packages: true
-puppetboard::manage_gcc: true
 puppetboard::manage_pip: true
 puppetboard::manage_supervisord: true
 puppetboard::manage_user: true
 puppetboard::pip_package_ensure: present
 puppetboard::pip_package_name: python2-pip
+puppetboard::python_devel_pkg: python-devel
 puppetboard::run_as_user: puppetboard
 puppetboard::service_name: puppetboard
 puppetboard::supervisor_pkg_name: supervisor

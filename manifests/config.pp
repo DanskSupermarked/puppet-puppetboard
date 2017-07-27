@@ -87,6 +87,8 @@ class puppetboard::config inherits puppetboard{
     value   => "${puppetboard::config_log_folder}/puppetboard.error.log",
   }
 
+  # The err and std logs (supervisord and puppetboard) are by default rotated when reaching 50MB (10 kept).
+
   if $puppetboard::manage_user and $puppetboard::config_listen_port > 1024 {
     $supervisor_puppetboard_user_ensure = 'present'
 

@@ -19,15 +19,16 @@ class puppetboard (
   String $config_supervisord_conf_folder,
   String $config_supervisord_include_rule,
   String $gevent_pkg_ensure,
+  Boolean $gevent_use_wheel_bin,
   String $gunicorn_pkg_ensure,
   String $install_path,
   Boolean $install_site_packages,
-  Boolean $manage_gcc,
   Boolean $manage_pip,
   Boolean $manage_supervisord,
   Boolean $manage_user,
   String $pip_package_ensure,
   String $pip_package_name,
+  String $python_devel_pkg,
   String $run_as_user,
   String $service_name,
   Boolean $supervisor_from_pip,
@@ -91,8 +92,8 @@ class puppetboard (
   }
 
   if $use_gevent {
-    if $manage_gcc {
-      package { 'gcc':
+    if !$gevent_use_wheel_bin {
+      package { $python_devel_pkg:
         ensure => 'present',
         notify => Package['gevent'],
       }
@@ -136,7 +137,5 @@ class puppetboard (
   }
 
   contain puppetboard::config
-
-  # log rotation rule for gunicorn/supervisor?
 
 }

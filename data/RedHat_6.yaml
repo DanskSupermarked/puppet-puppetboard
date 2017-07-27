@@ -1,2 +1,4 @@
+puppetboard::gevent_pkg_ensure: '1.1.2'
+puppetboard::gevent_use_wheel_bin: false
 puppetboard::install_path: /usr/lib/python2.6/site-packages
 puppetboard::pip_package_name: python-pip
