@@ -3,15 +3,6 @@ require 'spec_helper'
 describe 'puppetboard' do
   on_supported_os.each do |os, facts|
     context "on #{os}" do
-      let(:facts) do
-        facts.merge({
-          :facterversion => '2.5',
-        })
-        facts.merge({
-          :ipaddress_lo  => '127.0.0.1',
-        })
-      end
-
       it { is_expected.to compile.with_all_deps }
 
       it { should contain_file('/etc/init.d/supervisord') }
