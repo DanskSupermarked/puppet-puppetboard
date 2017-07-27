@@ -117,4 +117,14 @@ class puppetboard::config inherits puppetboard{
     value   => $puppetboard::run_as_user,
   }
 
+  ini_setting { 'supervisor_puppetboard_autostart':
+    ensure  => $supervisor_puppetboard_user_ensure,
+    notify  => Service['puppetboard'],
+    path    => $puppetboard::config_puppetboard_conf_path,
+    require => File[$puppetboard::config_supervisord_conf_folder],
+    section => 'program:puppetboard',
+    setting => 'autostart',
+    value   => 'false',
+  }
+
 }
