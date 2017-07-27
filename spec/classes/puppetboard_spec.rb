@@ -5,7 +5,8 @@ describe 'puppetboard' do
     context "on #{os}" do
       let(:facts) do
         facts.merge({
-          :ipaddress_lo => '127.0.0.1',
+          :facterversion => '2.5'
+          :ipaddress_lo  => '127.0.0.1',
         })
       end
 
