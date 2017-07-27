@@ -1,6 +1,6 @@
 {
   "name": "dansksupermarked-puppetboard",
-  "version": "1.2.4",
+  "version": "1.2.5",
   "author": "dansksupermarked",
   "summary": "Install and Manage Puppetboard with Gunicorn and Supervisor",
   "license": "GPL-3.0",

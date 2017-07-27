@@ -124,7 +124,7 @@ class puppetboard::config inherits puppetboard{
     require => File[$puppetboard::config_supervisord_conf_folder],
     section => 'program:puppetboard',
     setting => 'autostart',
-    value   => 'false',
+    value   => false,
   }
 
 }
