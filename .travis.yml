@@ -5,4 +5,4 @@ matrix:
   fast_finish: true
   include:
   - rvm: 2.1.6
-    env: PUPPET_GEM_VERSION="~> 4.9" STRICT_VARIABLES="yes" FACTER_GEM_VERSION="~> 3.6.3"
+    env: PUPPET_GEM_VERSION="~> 4.9" STRICT_VARIABLES="yes" FACTER_GEM_VERSION="~> 2.5.0"
