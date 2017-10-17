@@ -35,4 +35,4 @@ puppetboard::supervisor_from_pip: true
 puppetboard::supervisor_pkg_ensure: present
 puppetboard::unresponsive_hours: 2
 puppetboard::use_gevent: true
-puppetboard::version: 0.2.2
+puppetboard::version: 0.3.0
